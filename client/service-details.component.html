@@ -1,0 +1,321 @@
+<form [formGroup]="addServiceFrm" (ngSubmit)="hideDialog()">
+
+    <p-dialog [(visible)]="serviceDialog" [style]="{width: '450px'}" header={{title}} [modal]="true"
+        styleClass="p-fluid" (onHide)="hideDialog()">
+
+        <div class="popupTitle">תיאור</div>
+        <ng-template pTemplate="content">
+            <div class="field">
+                <label for="name">שם:*</label><br>
+                <input formControlName="name" class="popupInput" type="text" pInputText id="name" required
+                    autofocus /><br>
+                <small *ngIf="addServiceFrm.controls['name'].invalid &&  addServiceFrm.controls['name'].dirty"
+                    class="p-error">יש להזין תווים תקינים בלבד</small> <br>
+                <small *ngIf="addServiceFrm.controls['name'].invalid && addServiceFrm.controls['name'].touched"
+                    class="p-error">זהו שדה חובה</small>
+            </div>
+
+            <div class="field">
+                <label for="inventoryStatus">מודול בסיסי:*</label>
+                <p-dropdown formControlName="module" inputId="inventoryStatus" [options]="selectBasicModules"
+                    optionLabel="value" placeholder="בחר" optionValue="key">
+                    <ng-template let-option pTemplate="item">
+                        <span [class]="'product-badge status-' + option.value">{{option.value}}</span>
+                    </ng-template>
+                </p-dropdown>
+                <small
+                    *ngIf="addServiceFrm.controls['module'].invalid && (addServiceFrm.controls['module'].dirty || addServiceFrm.controls['module'].touched)"
+                    class="p-error">זהו שדה חובה</small>
+            </div>
+
+            <div class="field">
+                <label for="inventoryStatus">סוג שרות:*
+                </label>
+                <p-dropdown formControlName="serviceType" inputId="inventoryStatus" [options]="selectServiceType"
+                    optionLabel="value" placeholder="בחר" optionValue="key">
+                    <ng-template let-option pTemplate="item">
+                        <span [class]="'product-badge status-' + option.value">{{option.value}}</span>
+                    </ng-template>
+                </p-dropdown>
+                <small
+                    *ngIf="addServiceFrm.controls['serviceType'].invalid && (addServiceFrm.controls['serviceType'].dirty || addServiceFrm.controls['serviceType'].touched)"
+                    class="p-error">זהו שדה חובה</small>
+            </div>
+
+
+
+            <div class="field">
+                <label for="name">מטרה:*</label>
+                <input formControlName="purpose" type="text" pInputText id="name" required autofocus />
+                <small
+                    *ngIf="addServiceFrm.controls['purpose'].invalid && (addServiceFrm.controls['purpose'].dirty || addServiceFrm.controls['purpose'].touched)"
+                    class="p-error">זהו שדה חובה</small>
+            </div>
+
+            <div class="popupTitle">בעלים והתראות</div>
+
+            <div class="field">
+                <label for="name">שם בעלים:*</label>
+                <input type="text" pInputText id="ownerName" formControlName="ownerName" required autofocus />
+                <small
+                    *ngIf="addServiceFrm.controls['ownerName'].invalid && (addServiceFrm.controls['ownerName'].dirty || addServiceFrm.controls['ownerName'].touched)"
+                    class="p-error">זהו שדה חובה</small>
+            </div>
+
+            <div class="field">
+                <label for="name">מייל בעלים:*</label>
+                <input type="text" pInputText id="ownerEmail" formControlName="ownerEmail" required autofocus />
+                <small
+                    *ngIf="addServiceFrm.controls['ownerEmail'].invalid &&  addServiceFrm.controls['ownerEmail'].dirty"
+                    class="p-error">נא להזין כתובת מייל תקינה</small> <br>
+                <small
+                    *ngIf="addServiceFrm.controls['ownerEmail'].invalid &&  addServiceFrm.controls['ownerEmail'].touched"
+                    class="p-error">זהו שדה חובה</small>
+            </div>
+
+            <div class="field">
+                <label for="name">טלפון בעלים:*</label>
+                <input type="text" pInputText id="ownerPhone" formControlName="ownerPhone" required autofocus />
+                <small
+                    *ngIf="addServiceFrm.controls['ownerPhone'].invalid &&  addServiceFrm.controls['ownerPhone'].dirty"
+                    class="p-error">נא להזין מספר טלפון תקין</small> <br>
+                <small
+                    *ngIf="addServiceFrm.controls['ownerPhone'].invalid &&  addServiceFrm.controls['ownerPhone'].touched"
+                    class="p-error">זהו שדה חובה</small>
+            </div>
+
+            <div class="popupTitle">ניתוב</div>
+
+
+            <div class="field">
+                <label for="name"> ניתוב: </label>
+                <a [href]="Url">{{Url}}</a>
+            </div>
+
+            <div class="field">
+                <label for="inventoryStatus">Http method:*</label>
+                <p-dropdown formControlName="httpMethodRequest" inputId="inventoryStatus" [options]="selectHttpMethod"
+                    optionLabel="value" placeholder="בחר" optionValue="key">
+                    <ng-template let-option pTemplate="item">
+                        <span [class]="'product-badge status-' + option.value">{{option.value}}</span>
+                    </ng-template>
+                </p-dropdown>
+                <small
+                    *ngIf="addServiceFrm.controls['httpMethodRequest'].invalid && (addServiceFrm.controls['httpMethodRequest'].dirty || addServiceFrm.controls['httpMethodRequest'].touched)"
+                    class="p-error">זהו שדה חובה</small>
+            </div>
+
+            <div *ngIf="showExternal">
+                <div class="popupTitle">חיצוני</div>
+
+
+                <div class="field">
+                    <label for="name">נתיב יעד*</label>
+                    <input type="text" pInputText id="destinationPath" formControlName="targetUrl" />
+                    <small
+                        *ngIf="addServiceFrm.controls['targetUrl'] && addServiceFrm.controls['targetUrl'].invalid && (addServiceFrm.controls['targetUrl'].dirty || addServiceFrm.controls['targetUrl'].touched) && showExternal "
+                        class="p-error">זהו שדה חובה</small>
+                </div>
+
+
+
+                <div class="field">
+                    <label for="inventoryStatus">*Http method:</label>
+                    <p-dropdown inputId [options]="selectHttpMethod" placeholder="בחר" optionLabel="value"
+                        optionValue="key" formControlName="httpMethodTarget">
+                        <ng-template let-option pTemplate="item">
+                            <span [class]="'product-badge status-' + option.value">{{option.value}}</span>
+                        </ng-template>
+                    </p-dropdown>
+                    <small
+                        *ngIf=" addServiceFrm.controls['httpMethodTarget'] && addServiceFrm.controls['httpMethodTarget'].invalid && (addServiceFrm.controls['httpMethodTarget'].dirty || addServiceFrm.controls['httpMethodTarget'].touched) && showExternal"
+                        class="p-error">זהו שדה חובה</small>
+                </div>
+
+
+                <ng-container *ngIf="addServiceFrm.controls.headers">
+                    <div *ngFor="let headerGroup of addServiceFrm.controls.headers.controls; index as i ">
+                        <div [formGroup]="headerGroup">
+                            <div class="field" style="display:inline-block; padding-left: 25px;">
+                                <input type="text" pInputText id="headerName" placeholder="header name"
+                                    formControlName="value" />
+
+                                <small
+                                    *ngIf="headerGroup.controls['value'].invalid && (headerGroup.controls['value'].dirty || headerGroup.controls['value'].touched) && showExternal"
+                                    class="p-error">זהו שדה חובה</small>
+                            </div>
+
+                            <div class="field" style="display:inline-block; ">
+                                <input type="text" pInputText id="headerValue" placeholder="header value"
+                                    formControlName="key" />
+                                <small
+                                    *ngIf="headerGroup.controls['key'].invalid && (headerGroup.controls['key'].dirty || headerGroup.controls['key'].touched) && showExternal"
+                                    class="p-error">זהו שדה חובה</small>
+                            </div>
+                            <button pButton icon="pi pi-trash" class=" p-button-warning"
+                                (click)="removeHeader(i)"></button>
+                        </div>
+                    </div>
+                </ng-container>
+                <button pButton type="button" label="הוסף Header" (click)="addHeader()"
+                    class="my-button"></button><br><br>
+                <div class="field">
+                    <p-checkbox name="GetSqlData" formControlName='getSqlData' label="האם לשלוף נתונים מDB?"
+                        [binary]="true"></p-checkbox>
+                </div>
+
+                <div class="field">
+                    <p-checkbox name="IsWcf" formControlName="isWcf" label="WCF" [binary]="true"></p-checkbox>
+                </div>
+
+                <div *ngIf="addServiceFrm.controls['isWcf'].value" class="field">
+                    <input type="text" pInputText formControlName="wcfData" />
+                    <small
+                        *ngIf=" addServiceFrm.controls['wcfData'] && addServiceFrm.controls['wcfData'].invalid && (addServiceFrm.controls['wcfData'].dirty || addServiceFrm.controls['wcfData'].touched) && showExternal"
+                        class="p-error">זהו שדה חובה</small>
+                </div>
+
+
+            </div>
+
+            <div class="popupTitle">נתונים </div>
+
+            <div class="field">
+                <label for="inventoryStatus">בסיס נתונים:*</label>
+                <p-dropdown formControlName="db" inputId="inventoryStatus" [options]="selectDb" optionLabel="value"
+                    placeholder="בחר" optionValue="key">
+                    <ng-template let-option pTemplate="item">
+                        <span [class]="'product-badge status-' + option.value">{{option.value}}</span>
+
+
+                    </ng-template>
+                </p-dropdown>
+                <small
+                    *ngIf="addServiceFrm.controls['db'].invalid && (addServiceFrm.controls['db'].dirty || addServiceFrm.controls['db'].touched)"
+                    class="p-error">זהו שדה חובה</small>
+            </div>
+
+            <div class="field">
+                <label for="name">פרוצדורה:*</label>
+                <input type="text" pInputText id="procedure" formControlName="procedure" required autofocus />
+                <small *ngIf="addServiceFrm.controls['procedure'].invalid &&  addServiceFrm.controls['procedure'].dirty"
+                    class="p-error">יש להזין תוים תקינים בלבד</small> <br>
+                <small
+                    *ngIf="addServiceFrm.controls['procedure'].invalid &&  addServiceFrm.controls['procedure'].touched"
+                    class="p-error">זהו שדה חובה</small>
+            </div>
+
+            <div class="field">
+                <p-checkbox id="sentUser" name="sentUser" formControlName="sentUser"
+                    label="האם לשלוח שם משתמש לפרוצדורה?" [(ngModel)]="sentUserValue" [binary]="true"></p-checkbox>
+            </div>
+
+
+            <div class="popupTitle">פרמטרים</div><br>
+
+            <div *ngIf="showParams; else showJson">
+                <label>Query Params- הפרמטרים שישורשרו לURL וישלחו לפרוצדורה באותו שם</label><br><br>
+                <div class="field" *ngFor="let paramsGroup of addServiceFrm.controls.params.controls; index as i ">
+                    <div [formGroup]="paramsGroup">
+
+                        <input class="paramInput popupInput" placeholder="parameter name" type="text" pInputText
+                            id="Key" formControlName="Key" required autofocus />
+                        <small
+                            *ngIf="i == 0 && paramsGroup.controls['Key'].invalid && (paramsGroup.controls['Key'].dirty || paramsGroup.controls['Key'].touched)"
+                            class="p-error">זהו שדה חובה</small>
+                        <input class="paramInput popupInput" placeholder="parameter value" type="text" pInputText
+                            id="Value" formControlName="Value" required autofocus />
+                        <small
+                            *ngIf="i == 0 && paramsGroup.controls['Value'].invalid && (paramsGroup.controls['Value'].dirty || paramsGroup.controls['Value'].touched)"
+                            class="p-error">זהו שדה חובה</small>
+                        <button pButton icon="pi pi-trash" class="p-button-warning "
+                            (click)="deleteParam(i)"></button><br><br>
+                    </div>
+                </div>
+                <button class="de-button" pButton type="button" label="הוסף PARAM" (click)="addParam()"></button>
+
+            </div>
+            <div>
+                <ng-template #showJson>
+                    <div class="field">
+
+                        <label>שמות השדות יהיו שמות הפרמטרים לפרוצדורה Body הפרמטרים שישלחו ב- Body
+                            Params</label><br><br>
+                        <label for="inventoryStatus">JSON value:*</label>
+                        <input type="text" pInputText id="jsonValue" formControlName="jsonValue" required autofocus />
+                        <small
+                            *ngIf="addServiceFrm.controls['jsonValue']?.invalid && (addServiceFrm.controls['jsonValue'].dirty || addServiceFrm.controls['jsonValue'].touched)"
+                            class="p-error">זהו שדה חובה</small>
+
+                        <small
+                            *ngIf="addServiceFrm.controls['db'].invalid && (addServiceFrm.controls['db'].dirty || addServiceFrm.controls['db'].touched)"
+                            class="p-error">זהו שדה חובה</small>
+                    </div>
+                </ng-template>
+
+                <div class="field">
+                    <p-checkbox [(ngModel)]="isMap" [ngModelOptions]="{standalone: true}" label="אובייקט יחיד ללא מיפוי"
+                        (onChange)="isMapChange()" [binary]="true"></p-checkbox>
+                </div>
+
+            </div>
+            <ng-container *ngIf="!isMap">
+                <button pButton type="button" (click)="recieveDataFromProcedure()" label="קבלת נתונים מהפרוצדורה למיפוי"
+                    class="de-button"></button><br><br>
+
+
+                <ng-container *ngIf="showReturnObject">
+                    <div class="popupTitle">אובייקט חוזר</div><br>
+                    <div>
+
+                        <ng-container *ngFor="let obj of tableSchemaForm.controls; index as i">
+                            <div [ngClass]="'padding-'+obj.value.level" class="field" [formGroup]="obj">
+                                <label for="name">שם:*</label>
+                                <input class="popupInput" type="text" pInputText formControlName="name" />
+
+                                {{obj.value.containerName}}
+                                {{obj.value.level}}
+                                <button (click)="changeIsArray(i)" pButton type="button"
+                                    [ngClass]="getIsArray(i)? 'p-button-warning':'paramInput'" icon="pi pi-list"
+                                    class="paramInput"></button>
+                                <button (click)="changeIsArray(i)" pButton type="button"
+                                    [ngClass]="getIsArray(i)? 'paramInput':'p-button-warning'"
+                                    [style]="'min-width: auto;     width: 2.4375rem; font-weight:bold;'" label="{}"
+                                    class="paramInput icon"></button>
+                                <button (click)="right(i)" pButton type="button" icon="pi pi-angle-double-right"
+                                    class="paramInput"></button>
+
+                                <button (click)="left(i)" pButton type="button" icon="pi pi-angle-double-left"
+                                    class="paramInput"></button>
+
+                                <button pButton type="button"
+                                    styleClass="p-button-raised p-button-text p-button-secondary"
+                                    class="p-button-text de-button paramInput" [style]="'width:105px'"
+                                    label={{obj.value.show?showTableTitle:showTableTitle2}}
+                                    (click)="showTable(i)"></button>
+                                <br>
+                                <small
+                                    *ngIf="obj.controls['name'].invalid && (obj.controls['name'].dirty || obj.controls['name'].touched)"
+                                    class="p-error">זהו שדה חובה</small>
+                                <jer-parameters-table *ngIf="obj.value.show" [columns]="obj.value.columns"
+                                    [data]="obj.value.data"></jer-parameters-table>
+                            </div>
+                        </ng-container>
+                        <button pButton type="button" label="הצג תוצאה לדוגמא" class="de-button"
+                            (click)="showExampleResult()"></button><br><br>
+                        <pre dir="rtl">{{exampleProcedureResult|json}}</pre>
+
+                    </div>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+
+
+
+
+
+        <ng-template pTemplate="footer">
+
+            <button pButton pRipple label="ביטול" icon="pi pi-times" class="p-button-text" type="submit"></button>
+            <button [disabled]="(!addServiceFrm.valid || !hasTableSchema) " pButton pRipple label="שמור"
+                icon="pi pi-check" class="p-button-text" type="button" (click)="saveService()"></button>
